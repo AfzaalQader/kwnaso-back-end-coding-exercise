@@ -3,15 +3,21 @@ const failler = require('../public/javascripts/failure')
 
 exports.auth = async (req, res, next) => {
     try {
-        const token = await req.headers.authorization.split(' ')[1];
+        const header = await req.headers.authorization;
+        if(!header) {
+            const failer_401 = failler.failure_range_400.failure_401;
+            failer_401.message = "Token required!"
+            return res.status(failer_401.code).send(failer_401)
+        }
+        const token = header.split(' ')[1]
         const decodedToken = await jwt.verify(token, "secret");
 
-        const _id = decodedToken.data;
-        if (!_id) {
+        const id = decodedToken.data;
+        if (!id) {
             const failer_401 = failler.failure_range_400.failure_401;
             return res.status(failer_401.code).send(failer_401)
         } else {
-            req.query.id = _id;
+            req.query.id = id;
             next();
         }
     } catch(error) {

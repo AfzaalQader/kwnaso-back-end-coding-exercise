@@ -6,5 +6,5 @@ exports.userCreateValidation = Joi.object({
 });
 
 exports.getUserByIdValidation = Joi.object({
-    id: Joi.string().required("User Id required!")
+    id: Joi.number().integer().required("User Id required!")
 });

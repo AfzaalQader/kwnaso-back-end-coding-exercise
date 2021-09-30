@@ -25,7 +25,6 @@ exports.createTask = async (req, res) => {
         let id = task.length;
         body.id = id + 1;
         task.push(body);
-        console.log("Task:::::::::: ", task)
         const success_201 = success.success_range_200.success_201;
         success_201.items = [body];
         return res.status(success_201.code).send(success_201)
